@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login / Signup</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="auth-container">
+    <h2>User Login / Signup</h2>
+
+    <form id="authForm">
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required minlength="6" />
+      <button type="submit">Login / Signup</button>
+    </form>
+
+    <p id="authMessage"></p>
+  </main>
+
+  <script>
+    const form = document.getElementById("authForm");
+    const message = document.getElementById("authMessage");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const users = JSON.parse(localStorage.getItem("users")) || {};
+      if (users[email]) {
+        if (users[email] === password) {
+          localStorage.setItem("currentUser", email);
+          message.textContent = "Login successful!";
+          window.location.href = "index.html";
+        } else {
+          message.textContent = "Incorrect password!";
+        }
+      } else {
+        users[email] = password;
+        localStorage.setItem("users", JSON.stringify(users));
+        localStorage.setItem("currentUser", email);
+        message.textContent = "Signup successful!";
+        window.location.href = "index.html";
+      }
+    });
+  </script>
+</body>
+</html>

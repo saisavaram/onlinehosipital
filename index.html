@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HealthEase - Book Hospital Appointments</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <div class="logo">HealthEase</div>
+      <input type="text" placeholder="Search hospitals, doctors, or specialties" id="searchBar" />
+      <div class="nav-links">
+        <button id="loginBtn">Login</button>
+        <button id="signupBtn">Signup</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero-banner">
+    <h1>Your Health, Our Priority</h1>
+    <p>Search and book appointments with top hospitals near you</p>
+  </section>
+
+  <main>
+    <h2 class="section-title">Available Hospitals</h2>
+    <div class="hospital-container" id="hospitalList">
+      <!-- Hospital cards will be inserted by JavaScript -->
+    </div>
+    <div class="nav-links">
+  <button onclick="window.location.href='appointments.html'">My Appointments</button>
+  <button onclick="window.location.href='auth.html'">Login/Signup</button>
+  
+</div>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

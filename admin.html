@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">Admin Dashboard</div>
+  </header>
+
+  <main style="padding: 20px;">
+    <h2>Manage Doctors & Slots</h2>
+    <form id="doctorForm">
+      <input type="text" id="docName" placeholder="Doctor Name" required />
+      <input type="text" id="docSpecialty" placeholder="Specialty" required />
+      <input type="text" id="docSlots" placeholder="Slots (comma separated)" required />
+      <button type="submit">Add Doctor</button>
+    </form>
+
+    <h3>Doctors List</h3>
+    <ul id="docList"></ul>
+
+    <h2>Appointments</h2>
+    <div id="adminAppointments"></div>
+  </main>
+
+  <script>
+    const doctorForm = document.getElementById("doctorForm");
+    const docList = document.getElementById("docList");
+    const adminAppointments = document.getElementById("adminAppointments");
+
+    const hospital = "CityCare Hospital";
+    const doctorsData = JSON.parse(localStorage.getItem("adminDoctors")) || {};
+
+    const renderDoctors = () => {
+      docList.innerHTML = "";
+      (doctorsData[hospital] || []).forEach((doc, idx) => {
+        const li = document.createElement("li");
+        li.textContent = `${doc.name} (${doc.specialty}) - Slots: ${doc.slots.join(", ")}`;
+        docList.appendChild(li);
+      });
+    };
+
+    doctorForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = docName.value;
+      const specialty = docSpecialty.value;
+      const slots = docSlots.value.split(",").map(s => s.trim());
+
+      if (!doctorsData[hospital]) doctorsData[hospital] = [];
+      doctorsData[hospital].push({ name, specialty, slots });
+
+      localStorage.setItem("adminDoctors", JSON.stringify(doctorsData));
+      renderDoctors();
+      doctorForm.reset();
+    });
+
+    // Appointments
+    const appointments = JSON.parse(localStorage.getItem("appointments")) || [];
+    if (appointments.length === 0) {
+      adminAppointments.innerHTML = "<p>No appointments yet.</p>";
+    } else {
+      appointments.forEach(app => {
+        const div = document.createElement("div");
+        div.style.marginBottom = "10px";
+        div.innerHTML = `<strong>${app.hospital}</strong> - ${app.doctor} at ${app.slot} on ${app.date}`;
+        adminAppointments.appendChild(div);
+      });
+    }
+
+    renderDoctors();
+  </script>
+</body>
+</html>
